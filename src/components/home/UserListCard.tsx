@@ -1,5 +1,6 @@
 import { useUserProvider } from "../../provider/UserProvider";
 import LoadingSkeleton from "../shared/LoadingSkeleton";
+import { Meteors } from "../ui/meteors";
 
 function UserListCard() {
   const { users, isLoading, maxUsersPerPage } = useUserProvider();
@@ -13,7 +14,7 @@ function UserListCard() {
           {selectedUsers?.map((user) => {
             return (
               <li key={user.node_id}>
-                <div className="px-4 py-4 max-w-[700px] min-w-[500px] flex items-center justify-between bg-[#1E2A47] rounded-md shadow-xl">
+                <div className="px-4 py-4 max-w-[700px] min-w-[500px] flex items-center justify-between bg-[#1E2A47] rounded-md shadow-xl relative overflow-hidden">
                   <h2 className="text-white font-bold text-xl font-mono">
                     {user.login}
                   </h2>
@@ -22,6 +23,9 @@ function UserListCard() {
                     src={user.avatar_url}
                     alt={user.login}
                   />
+                  
+             
+                  <Meteors number={30}  />
                 </div>
               </li>
             );
@@ -33,3 +37,4 @@ function UserListCard() {
 }
 
 export default UserListCard;
+

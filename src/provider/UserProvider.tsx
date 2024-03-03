@@ -35,7 +35,7 @@ function UserProvider({ children }: PropsType) {
   const search = (username: string) => {
     timeoutRef && clearTimeout(timeoutRef.current as Timer);
     timeoutRef.current = setTimeout(() => {
-      userMutations.mutateAsync({ username });
+      if (username !== "") userMutations.mutateAsync({ username });
     }, 500);
   };
 
@@ -45,7 +45,7 @@ function UserProvider({ children }: PropsType) {
     isLoading,
     isError,
     maxUsersPerPage,
-    setMaxUsersPerPage
+    setMaxUsersPerPage,
   };
   return <Context.Provider value={contextValue}>{children}</Context.Provider>;
 }
