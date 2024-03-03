@@ -2,6 +2,7 @@ import { ReactNode, createContext, useContext, useRef } from "react";
 import { GithubUser } from "../service/types";
 import { useGithubUsers } from "../service/github";
 
+
 type PropsType = {
   children: ReactNode;
 };
@@ -9,6 +10,7 @@ type ContextType = {
   users: GithubUser[] | undefined;
   search: (username: string) => void;
   isLoading: boolean;
+  isError: boolean;
 };
 type Timer = ReturnType<typeof setTimeout>;
 
@@ -16,6 +18,7 @@ const Context = createContext<ContextType>({
   users: undefined,
   search: () => {},
   isLoading: false,
+  isError: false,
 });
 
 function UserProvider({ children }: PropsType) {
@@ -23,6 +26,9 @@ function UserProvider({ children }: PropsType) {
   const userMutations = useGithubUsers();
   const users = userMutations.data?.items;
   const isLoading = userMutations.isPending;
+  const isError = userMutations.isError;
+
+
   const search = (username: string) => {
     timeoutRef && clearTimeout(timeoutRef.current as Timer);
     timeoutRef.current = setTimeout(() => {
@@ -34,6 +40,7 @@ function UserProvider({ children }: PropsType) {
     users,
     search,
     isLoading,
+    isError,
   };
   return <Context.Provider value={contextValue}>{children}</Context.Provider>;
 }

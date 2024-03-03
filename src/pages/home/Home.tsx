@@ -1,18 +1,28 @@
-import UserListCard from "../../components/home/UserListCard"
-import UserSearchForm from "../../components/home/UserSearchForm"
-
+import { useUserProvider } from "../../provider/UserProvider";
+import UserListCard from "../../components/home/UserListCard";
+import UserSearchForm from "../../components/home/UserSearchForm";
+import { useToast } from "../../components/ui/toast/use-toast";
+import { Toaster } from "../../components/ui/toast/toaster";
+import { useEffect } from "react";
 function Home() {
+  const { isError } = useUserProvider();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    toast({
+      variant: "destructive",
+      title: "Uh oh! Something went wrong.",
+      description: "There was a problem with your request.",
+    });
+  }, [isError]);
+
   return (
     <>
-    <UserSearchForm/>
-    <UserListCard/>
+      <UserSearchForm />
+      <UserListCard />
+      {isError && <Toaster />}
     </>
-      /* {isLoading && <Icons.spinner className="h-12 w-12 animate-spin" />} */
-      /* <UserList value={value} /> */
-      /* {isError && <Toaster />} */
-   
-   
-  )
+  );
 }
 
-export default Home
+export default Home;
