@@ -1,10 +1,11 @@
 import { ChangeEvent } from "react";
 import { Input } from "../ui/input";
-
+import { useUserProvider } from "../../provider/UserProvider";
 function UserSearchForm() {
-  const searchInputHandler = (e:ChangeEvent<HTMLInputElement>) =>{
-         console.log(e.target.value);
-  }
+  const { search } = useUserProvider();
+  const searchInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    search(e.target.value);
+  };
   return (
     <form className="flex justify-center py-6">
       <Input

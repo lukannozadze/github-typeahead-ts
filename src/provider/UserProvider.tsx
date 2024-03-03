@@ -1,22 +1,38 @@
-import { ReactNode, createContext, useContext, useState } from "react";
-import { GithubUsers } from "../service/types";
+import { ReactNode, createContext, useContext, useRef } from "react";
+import { GithubUser } from "../service/types";
+import { useGithubUsers } from "../service/github";
 
 type PropsType = {
   children: ReactNode;
 };
 type ContextType = {
-  users: GithubUsers | null;
-  setUsers: React.Dispatch<React.SetStateAction<GithubUsers | null>>;
+  users: GithubUser[] | undefined;
+  search:(username:string)=>void
 };
+type Timer = ReturnType<typeof setTimeout>;
+
+
 const Context = createContext<ContextType>({
-  users: null,
-  setUsers: () => {},
+  users: undefined,
+  search: () => {}
 });
+
 function UserProvider({ children }: PropsType) {
-  const [users, setUsers] = useState<GithubUsers | null>(null);
+  const timeoutRef = useRef<Timer | null>(null);
+  const userMutations = useGithubUsers();
+  const users = userMutations.data?.items;
+
+  const search = (username:string) =>{
+    timeoutRef && clearTimeout(timeoutRef.current as Timer);
+    timeoutRef.current = setTimeout(() => {
+      userMutations.mutateAsync({ username });
+    }, 500);
+    
+  }
+  
   const contextValue: ContextType = {
     users,
-    setUsers,
+    search
   };
   return <Context.Provider value={contextValue}>{children}</Context.Provider>;
 }

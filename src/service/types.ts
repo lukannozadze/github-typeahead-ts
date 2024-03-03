@@ -1,4 +1,4 @@
-type GithubUser = {
+export type GithubUser = {
    login:string,
    id:number,
    node_id:string,
@@ -23,5 +23,5 @@ type GithubUser = {
 export type GithubUsers = {
   total_count:number,
   incomplete_results:boolean,
-  items:GithubUser[]
+  items:GithubUser[] | undefined
 }
