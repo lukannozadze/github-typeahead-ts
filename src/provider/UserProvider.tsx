@@ -7,32 +7,33 @@ type PropsType = {
 };
 type ContextType = {
   users: GithubUser[] | undefined;
-  search:(username:string)=>void
+  search: (username: string) => void;
+  isLoading: boolean;
 };
 type Timer = ReturnType<typeof setTimeout>;
 
-
 const Context = createContext<ContextType>({
   users: undefined,
-  search: () => {}
+  search: () => {},
+  isLoading: false,
 });
 
 function UserProvider({ children }: PropsType) {
   const timeoutRef = useRef<Timer | null>(null);
   const userMutations = useGithubUsers();
   const users = userMutations.data?.items;
-
-  const search = (username:string) =>{
+  const isLoading = userMutations.isPending;
+  const search = (username: string) => {
     timeoutRef && clearTimeout(timeoutRef.current as Timer);
     timeoutRef.current = setTimeout(() => {
       userMutations.mutateAsync({ username });
     }, 500);
-    
-  }
-  
+  };
+
   const contextValue: ContextType = {
     users,
-    search
+    search,
+    isLoading,
   };
   return <Context.Provider value={contextValue}>{children}</Context.Provider>;
 }
