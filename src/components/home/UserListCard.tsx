@@ -5,6 +5,7 @@ import { Meteors } from "../ui/meteors";
 function UserListCard() {
   const { users, isLoading, maxUsersPerPage } = useUserProvider();
   const selectedUsers = users?.slice(0, maxUsersPerPage);
+
   return (
     <section className="flex flex-col gap-8 items-center">
       {isLoading ? (
@@ -23,9 +24,7 @@ function UserListCard() {
                     src={user.avatar_url}
                     alt={user.login}
                   />
-                  
-             
-                  <Meteors number={30}  />
+                  <Meteors number={30} />
                 </div>
               </li>
             );
@@ -37,4 +36,3 @@ function UserListCard() {
 }
 
 export default UserListCard;
-

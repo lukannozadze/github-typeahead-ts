@@ -17,6 +17,7 @@ function UserSelect() {
   const handleSelect = (value: string) => {
     setMaxUsersPerPage(parseFloat(value));
   };
+  
   return (
     <>
       {selectValues && (
