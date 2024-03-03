@@ -1,7 +1,6 @@
-import { ReactNode, createContext, useContext, useRef } from "react";
+import { ReactNode, createContext, useContext, useRef, useState } from "react";
 import { GithubUser } from "../service/types";
 import { useGithubUsers } from "../service/github";
-
 
 type PropsType = {
   children: ReactNode;
@@ -9,25 +8,29 @@ type PropsType = {
 type ContextType = {
   users: GithubUser[] | undefined;
   search: (username: string) => void;
+  setMaxUsersPerPage: React.Dispatch<React.SetStateAction<number>>;
   isLoading: boolean;
   isError: boolean;
+  maxUsersPerPage: number;
 };
 type Timer = ReturnType<typeof setTimeout>;
 
 const Context = createContext<ContextType>({
   users: undefined,
   search: () => {},
+  setMaxUsersPerPage: () => {},
   isLoading: false,
   isError: false,
+  maxUsersPerPage: 5,
 });
 
 function UserProvider({ children }: PropsType) {
+  const [maxUsersPerPage, setMaxUsersPerPage] = useState(5);
   const timeoutRef = useRef<Timer | null>(null);
   const userMutations = useGithubUsers();
   const users = userMutations.data?.items;
   const isLoading = userMutations.isPending;
   const isError = userMutations.isError;
-
 
   const search = (username: string) => {
     timeoutRef && clearTimeout(timeoutRef.current as Timer);
@@ -41,6 +44,8 @@ function UserProvider({ children }: PropsType) {
     search,
     isLoading,
     isError,
+    maxUsersPerPage,
+    setMaxUsersPerPage
   };
   return <Context.Provider value={contextValue}>{children}</Context.Provider>;
 }
