@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useUserProvider } from "../../provider/UserProvider";
 import LoadingSkeleton from "../shared/LoadingSkeleton";
 import { Meteors } from "../ui/meteors";
@@ -15,6 +16,7 @@ function UserListCard() {
           {selectedUsers?.map((user) => {
             return (
               <li key={user.node_id}>
+               <Link to={user.node_id}>
                 <div className="px-4 py-4 max-w-[700px] min-w-[500px] flex items-center justify-between bg-[#1E2A47] rounded-md shadow-xl relative overflow-hidden">
                   <h2 className="text-white font-bold text-xl font-mono">
                     {user.login}
@@ -26,6 +28,7 @@ function UserListCard() {
                   />
                   <Meteors number={30} />
                 </div>
+               </Link>
               </li>
             );
           })}

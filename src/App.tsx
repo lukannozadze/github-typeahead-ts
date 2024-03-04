@@ -1,16 +1,16 @@
+import { Route, Routes } from "react-router-dom";
 import Home from "./pages/home/Home"
+import DetailPage from "./pages/detail/DetailPage";
 
 function App() {
   return (
-
-   <Home/>
-
+    <>
+    <Routes>
+      <Route path="/" element={<Home/>}/>
+      <Route path="/:id" element={<DetailPage/>}/>
+    </Routes>
+    </>
   )
 }
 
 export default App;
-      
-        // <div className="relative shadow-xl bg-gray-900 border border-gray-800  px-4 py-8 h-full overflow-hidden rounded-2xl flex flex-col justify-end items-start">
-        //   {/* Meaty part - Meteor effect */}
-        //   <Meteors number={20} />
-        // </div>

@@ -18,6 +18,7 @@ function Home() {
 
   return (
     <>
+    
       <UserSearchForm />
       <UserListCard />
       {isError && <Toaster />}
