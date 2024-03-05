@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { ReactNode, createContext, useContext, useRef, useState } from "react";
 import { GithubUser } from "../service/types";
 import { useGithubUsers } from "../service/github";
